@@ -1,0 +1,17 @@
+.captcha{
+    padding-bottom: 20px;
+}
+.captcha img{
+    float: left;
+    margin-right: 5px;
+}
+.captcha input{
+    width: auto;
+}
+
+form{
+    margin-bottom: 50px;
+}
+form button{
+    margin-top: 27px;
+}
