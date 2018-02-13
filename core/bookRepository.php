@@ -8,6 +8,7 @@ class BookRepository {
 
 
     private $db;
+    private $file_folder = PATH.'/uploads';
 
     public function __construct()
     {
@@ -46,9 +47,48 @@ class BookRepository {
         if (!$res) {
             $book->error = true;
             $book->error_msg = "Error has happened! Try again.";
+        } elseif (!empty($data['file'])) {
+            $book->error_msg = $this->saveFile($data['file']);
+        }
+    }
+
+    /**
+     * Save file
+     *
+     * @param $file
+     */
+    public function saveFile($file)
+    {
+        $target_dir = $this->file_folder;
+        $target_file = $target_dir .'/'. basename($file["name"]);
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+        if (file_exists($target_file)) {
+            return "Sorry, file already exists.";
+        }
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif"  && $imageFileType != "txt" ) {
+            return "Wrong file format.";
         }
 
-        $book->error = false;
+        if ($imageFileType == 'txt') {
+            if ($file["size"] > 102400) {
+                return "Sorry, your file is too large.";
+            } else {
+                if (move_uploaded_file($file["tmp_name"], $target_file)) {
+                } else {
+                    return "Sorry, there was an error uploading your file.";
+                }
+            }
+        } else {
+            $img_size = getimagesize($file["tmp_name"]);
+            if ($img_size[0] > 320 || $img_size[1] > 240) {
+                resize_image($file["tmp_name"], 320, 240, false, $imageFileType);
+            }
+            if (move_uploaded_file($file["tmp_name"], $target_file)) {
+            } else {
+                return "Sorry, there was an error uploading your file.";
+            }
+        }
     }
 
     /**

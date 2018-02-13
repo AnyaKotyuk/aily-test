@@ -52,6 +52,21 @@ class FormHelper {
     }
 
     /**
+     * Show file form element
+     *
+     * @param string $name
+     * @param string $value
+     * @param string $attrs
+     */
+    public static function file($name = null, $label, $value, $attrs = null)
+    {
+        ?>
+        <label class="control-label" for="<?php echo $name; ?>"><?php echo $label; ?></label>
+        <input type="file" id="<?php echo $name; ?>" class="form-control" name="<?php echo $name; ?>" value="<?php echo $value; ?>" <?php echo $attrs; ?>>
+        <?
+    }
+
+    /**
      * Show submit button form element
      *
      * @param null $name

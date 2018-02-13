@@ -3,7 +3,7 @@
     <?php echo $error_msg; ?>
 </div>
 <?php } ?>
-<?php if($error === false){ ?>
+<?php if($error != true){ ?>
     <div class="alert alert-success">
         Your message is saved!
     </div>
@@ -27,6 +27,11 @@
         <div class="row">
             <div class="col-md-12">
                 <?php FormHelper::textarea('message', 'Message', $data['message']); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <?php FormHelper::file('attach', 'Attach txt file or image', $data['file']); ?>
             </div>
         </div>
         <div class="row">
