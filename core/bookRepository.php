@@ -47,6 +47,8 @@ class BookRepository {
             $book->error = true;
             $book->error_msg = "Error has happened! Try again.";
         }
+
+        $book->error = false;
     }
 
     /**

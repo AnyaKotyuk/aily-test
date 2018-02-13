@@ -24,36 +24,38 @@
 </div>
 
 <?php if (!empty($messages)) { ?>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <table>
-                <tr>
-                    <th><a href="<?php echo URL.'?sortby=user_name&sort='.((empty($_GET['sort']) || $_GET['sort'] == "ASC")?"DESC":"ASC"); ?>">User Name</a></th>
-                    <th><a href="<?php echo URL.'?sortby=user_email&sort='.((empty($_GET['sort']) || $_GET['sort'] == "ASC")?"DESC":"ASC"); ?>">User E-mail</a></th>
-                    <th>User IP address</th>
-                    <th>User Browser Info</th>
-                    <th>User Homepage</th>
-                    <th>Message</th>
-                    <th><a href="<?php echo URL.'?sortby=dt&sort='.((empty($_GET['sort']) || $_GET['sort'] == "ASC")?"DESC":"ASC"); ?>">Date</a></th>
-                </tr>
-                <?php foreach ($messages as $k=>$message) { ?>
+            <div class="table-responsive">
+                <table class="messages table table-striped">
                     <tr>
-                        <td><?php echo $message['user_name']; ?></td>
-                        <td><?php echo $message['user_email']; ?></td>
-                        <td><?php echo $message['user_ip']; ?></td>
-                        <td><?php echo $message['user_broeser']; ?></td>
-                        <td><?php echo $message['user_homepage']; ?></td>
-                        <td><?php echo $message['message']; ?></td>
-                        <td><?php echo $message['dt']; ?></td>
+                        <th><a href="<?php echo URL.'?sortby=user_name&sort='.((empty($_GET['sort']) || $_GET['sort'] == "ASC")?"DESC":"ASC"); ?>">User Name</a></th>
+                        <th><a href="<?php echo URL.'?sortby=user_email&sort='.((empty($_GET['sort']) || $_GET['sort'] == "ASC")?"DESC":"ASC"); ?>">User E-mail</a></th>
+                        <th>User IP address</th>
+                        <th>User Browser Info</th>
+                        <th>User Homepage</th>
+                        <th>Message</th>
+                        <th><a href="<?php echo URL.'?sortby=dt&sort='.((empty($_GET['sort']) || $_GET['sort'] == "ASC")?"DESC":"ASC"); ?>">Date</a></th>
                     </tr>
-                <?php } ?>
-            </table>
+                    <?php foreach ($messages as $k=>$message) { ?>
+                        <tr>
+                            <td><?php echo $message['user_name']; ?></td>
+                            <td><?php echo $message['user_email']; ?></td>
+                            <td><?php echo $message['user_ip']; ?></td>
+                            <td><?php echo $message['user_browser']; ?></td>
+                            <td><?php echo $message['homepage']; ?></td>
+                            <td><?php echo $message['message']; ?></td>
+                            <td><?php echo $message['dt']; ?></td>
+                        </tr>
+                    <?php } ?>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 <?php } ?>
-<div class="container">
+<div class="container text-center">
     <div class="row">
         <div class="col-md-12">
             <?php echo $pagination; ?>

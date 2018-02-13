@@ -6,7 +6,7 @@
 class Book {
 
     private static $instance = null;
-    public $error = false;
+    public $error = null;
     public $error_msg = false;
     public $form_data = false;
 
@@ -96,11 +96,11 @@ class Book {
             $sort = 'ASC';
         }
         $page = (!empty($_GET['page']))?$_GET['page']:1;
-        $start = (2*($page-1));
+        $start = (MessagesPerPage*($page-1));
         $q = "SELECT *
                 FROM `".TableName."`
                 ORDER BY `".$sortby."` ".$sort."
-                LIMIT $start,2
+                LIMIT $start,".MessagesPerPage."
                 ";
         $res = $db->db_query_select($q);
         if (!$res) return false;

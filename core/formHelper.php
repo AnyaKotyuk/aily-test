@@ -60,7 +60,7 @@ class FormHelper {
     public static function submit($value = 'Submit', $attrs = null)
     {
         ?>
-        <button class="form-control" <?php echo $attrs; ?>><?php echo $value;?></button>
+        <button class="form-control btn btn-primary" <?php echo $attrs; ?>><?php echo $value;?></button>
         <?
     }
 

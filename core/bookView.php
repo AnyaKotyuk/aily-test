@@ -2,21 +2,18 @@
 
 class BookView {
 
-    public function __construct()
-    {
-
-    }
-
     /*
      * Show book page
      *
+     * @return string
      */
     public function show()
     {
         $book = Book::getInstance();
         $form_data = array(
-            'data' => $book->form_data,
-            'error' => $book->error_msg
+            'data' => ($book->error)?$book->form_data:null,
+            'error_msg' => $book->error_msg,
+            'error' => $book->error
         );
 
         $messages = $book->getMessages();
@@ -52,9 +49,10 @@ class BookView {
      */
     public function pagination()
     {
-        $count_pages = Book::messagesCount();
+        $count_messages = Book::messagesCount();
+        $count_show_pages = MessagesPerPage;
+        $count_pages = ceil($count_messages/$count_show_pages);
         $active = (!empty($_GET['page']))?$_GET['page']:1;
-        $count_show_pages = 2;
         $request = '';
         if (!empty($_GET['sortby'])) {
             $request .= 'sortby='.$_GET['sortby'];
@@ -66,22 +64,11 @@ class BookView {
         $url_page = '?'.$request.((!empty($request))?'&':'').'page=';
 
         if ($count_pages > 1) {
-            $left = $active - 1;
-            $right = $count_pages - $active;
-            if ($left < floor($count_show_pages / 2)) $start = 1;
-            else $start = $active - floor($count_show_pages / 2);
-            $end = $start + $count_show_pages - 1;
-            if ($end > $count_pages) {
-                $start -= ($end - $count_pages);
-                $end = $count_pages;
-                if ($start < 1) $start = 1;
-            }
             ob_start();
             ?>
-
             <ul class="pagination">
-                <?php for ($i = 1; $i <= ceil($count_pages/$count_show_pages); $i++){ ?>
-                    <li><a href="<?php echo ($i === 1)?$url: $url_page.$i ;?>"><?php echo $i; ;?></a></li>
+                <?php for ($i = 1; $i <= $count_show_pages; $i++){ ?>
+                    <li class="<?php echo ($i == $active)?'active':'';?>"><a href="<?php echo ($i === 1)?$url: $url_page.$i ;?>"><?php echo $i; ;?></a></li>
                 <?php } ?>
             </ul>
         <?php }

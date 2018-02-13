@@ -1,4 +1,14 @@
-<?php echo $error; ?>
+<?php if (!empty($error_msg)) { ?>
+<div class="alert alert-danger">
+    <?php echo $error_msg; ?>
+</div>
+<?php } ?>
+<?php if($error === false){ ?>
+    <div class="alert alert-success">
+        Your message is saved!
+    </div>
+<?php } ?>
+
 <form class="form-horizontal" enctype="multipart/form-data" method="post" action="/">
     <div class="container>">
         <div class="row">
