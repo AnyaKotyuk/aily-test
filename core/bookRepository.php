@@ -8,7 +8,6 @@ class BookRepository {
 
 
     private $db;
-    private $file_folder = PATH.'/uploads';
 
     public function __construct()
     {
@@ -29,9 +28,17 @@ class BookRepository {
             return false;
         }
 
+        if (!empty($data['file'])) {
+            $book->error_msg = $this->saveFile($data['file']);
+            if (!empty($book->error_msg)) {
+                $book->error = true;
+                return false;
+            }
+        }
+
         $q = "INSERT INTO `".TableName."`
-                (`user_name`, `user_email`, `user_ip`, `user_browser`, `homepage`, `message`, `dt`)
-                VALUES(:user_name, :user_email, :user_ip, :user_browser, :homepage, :message, CURRENT_TIMESTAMP)
+                (`user_name`, `user_email`, `user_ip`, `user_browser`, `homepage`, `message`, `file`, `dt`)
+                VALUES(:user_name, :user_email, :user_ip, :user_browser, :homepage, :message, :file, CURRENT_TIMESTAMP)
                 ";
 
         $params = array(
@@ -40,15 +47,14 @@ class BookRepository {
             ':user_ip' => $data['user_ip'],
             ':user_browser' => $data['user_browser'],
             ':homepage' => $data['homepage'],
-            ':message' => $data['message']
+            ':message' => $data['message'],
+            ':file' => (!empty($data['file']))?$data['file']['name']:''
         );
 
         $res = $this->db->prepare_query($q, $params);
         if (!$res) {
             $book->error = true;
             $book->error_msg = "Error has happened! Try again.";
-        } elseif (!empty($data['file'])) {
-            $book->error_msg = $this->saveFile($data['file']);
         }
     }
 
@@ -59,7 +65,8 @@ class BookRepository {
      */
     public function saveFile($file)
     {
-        $target_dir = $this->file_folder;
+        $target_dir = PATH.'/uploads';
+        chmod($target_dir, 0777);
         $target_file = $target_dir .'/'. basename($file["name"]);
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
@@ -105,6 +112,7 @@ class BookRepository {
                 `user_browser` varchar(100) NOT NULL,
                 `homepage` varchar(100),
                 `message` text NOT NULL,
+                `file` varchar(255),
                 `dt` datetime NOT NULL,
                 PRIMARY KEY(`id`)
         )";

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="<?php echo URL.'/assets/style.css' ;?>">
     <link rel="stylesheet" href="<?php echo URL.'/assets/bootstrap/css/bootstrap.min.css' ;?>">
+    <link rel="stylesheet" href="<?php echo URL.'/assets/lightbox/css/lightbox.min.css' ;?>">
     <script src="<?php echo URL.'/assets/jquery-3.3.1.min.js' ;?>"></script>
     <script src="<?php echo URL.'/assets/bootstrap/js/bootstrap.min.js' ;?>"></script>
 </head>
@@ -36,6 +37,7 @@
                         <th>User Browser Info</th>
                         <th>User Homepage</th>
                         <th>Message</th>
+                        <th>File</th>
                         <th><a href="<?php echo URL.'?sortby=dt&sort='.((empty($_GET['sort']) || $_GET['sort'] == "ASC")?"DESC":"ASC"); ?>">Date</a></th>
                     </tr>
                     <?php foreach ($messages as $k=>$message) { ?>
@@ -46,6 +48,7 @@
                             <td><?php echo $message['user_browser']; ?></td>
                             <td><?php echo $message['homepage']; ?></td>
                             <td><?php echo $message['message']; ?></td>
+                            <td><?php if (!empty($message['file'])) echo showFile($message['file']); ?></td>
                             <td><?php echo $message['dt']; ?></td>
                         </tr>
                     <?php } ?>
@@ -62,6 +65,6 @@
         </div>
     </div>
 </div>
+<script src="<?php echo URL.'/assets/lightbox/js/lightbox.min.js' ;?>"></script>
 </body>
-
 </html>

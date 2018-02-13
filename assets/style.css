@@ -15,4 +15,9 @@ form{
 form button{
     margin-top: 27px;
 }
-
+.messages td{
+    max-width: 300px;
+}
+.messages img{
+    max-width: 80px;
+}

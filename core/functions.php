@@ -71,14 +71,28 @@ function resize_image($file, $w, $h, $crop = false, $file_type = 'jpg') {
     imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
 
     if ($file_type == 'jpg' || $file_type == 'jpeg') {
-        $resized_src = imagejpeg($dst, $file);
+        imagejpeg($dst, $file);
     }
     if ($file_type == 'png') {
-        $resized_src = imagepng($dst, $file);
+        imagepng($dst, $file);
     }
     if ($file_type == 'gif') {
-        $resized_src = imagegif($dst, $file);
+        imagegif($dst, $file);
     }
 
     return $file;
+}
+
+/**
+ * Show img or txt file
+ *
+ * @param $file
+ */
+function showFile($file_name)
+{
+    $file = URL.'/uploads/'.$file_name;
+    if ($imageFileType = strtolower(pathinfo($file,PATHINFO_EXTENSION)) == 'txt') {
+        return '<a target="_blank" href="'.$file.'">'.$file.'</a>';
+    }
+    return '<a href="'.$file.'" data-lightbox="'.$file.'"><img src="'.$file.'"></a>';
 }

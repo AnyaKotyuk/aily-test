@@ -35,31 +35,31 @@ class Book {
      */
     public function validation($data = null)
     {
-        $error_msg = '';
+        $error_msg = array();
         if (empty(trim($data['user_name']))) {
-            $error_msg .= 'Name is required';
+            $error_msg[] = 'Name is required';
             $this->error = true;
         }
         if (empty(trim($data['user_email']))) {
-            $error_msg .= 'Email is required';
+            $error_msg[] = 'Email is required';
             $this->error = true;
         } elseif (!filter_var($data['user_email'], FILTER_VALIDATE_EMAIL)) {
-            $error_msg .= 'Incorrect email format';
+            $error_msg[] = 'Incorrect email format';
             $this->error = true;
         }
         if (!empty($data['homepage']) && !filter_var($data['homepage'], FILTER_VALIDATE_URL)) {
-            $error_msg .= 'Incorrect homeurl format';
+            $error_msg[] = 'Incorrect homeurl format';
             $this->error = true;
         }
         if (empty($data['message'])) {
-            $error_msg .= 'Enter your message';
+            $error_msg[] = 'Enter your message';
             $this->error = true;
         }
         if (!check_captcha()) {
-            $error_msg .= 'Captcha is incorrect!';
+            $error_msg[] = 'Captcha is incorrect!';
             $this->error = true;
         }
-        $this->error_msg = $error_msg;
+        $this->error_msg = implode('<br>', $error_msg);
     }
 
     /**
@@ -71,10 +71,9 @@ class Book {
     public function prepareData($data = null)
     {
         $data_new = array();
-        $data_new['user_name'] = htmlspecialchars(trim($data['user_name']));
-        $data_new['user_email'] = htmlspecialchars(trim($data['user_email']));
-        $data_new['homepage'] = htmlspecialchars(trim($data['homepage']));
-        $data_new['message'] = htmlspecialchars(trim($data['message']));
+        foreach ($data as $k => $v) {
+            $data_new[$k] = htmlspecialchars(trim($v));
+        }
         $this->form_data = $data_new;
         return $data_new;
     }
