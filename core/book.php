@@ -71,10 +71,10 @@ class Book {
     public function prepareData($data = null)
     {
         $data_new = array();
-        $data_new['user_name'] = addslashes(htmlspecialchars(trim($data['user_name'])));
-        $data_new['user_email'] = addslashes(htmlspecialchars(trim($data['user_email'])));
-        $data_new['homepage'] = addslashes(htmlspecialchars(trim($data['homepage'])));
-        $data_new['message'] = addslashes(htmlspecialchars(trim($data['message'])));
+        $data_new['user_name'] = htmlspecialchars(trim($data['user_name']));
+        $data_new['user_email'] = htmlspecialchars(trim($data['user_email']));
+        $data_new['homepage'] = htmlspecialchars(trim($data['homepage']));
+        $data_new['message'] = htmlspecialchars(trim($data['message']));
         $this->form_data = $data_new;
         return $data_new;
     }
@@ -104,7 +104,11 @@ class Book {
                 ";
         $res = $db->db_query_select($q);
         if (!$res) return false;
-        return $res;
+        $arr = array();
+        foreach ($res as $k=>$v) {
+            $arr[] = $this->prepareData($v);
+        }
+        return $arr;
     }
 
     public static function messagesCount()
