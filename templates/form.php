@@ -3,7 +3,7 @@
     <?php echo $error_msg; ?>
 </div>
 <?php } ?>
-<?php if($error != true && !empty($error)){ ?>
+<?php if($error === false){ ?>
     <div class="alert alert-success">
         Your message is saved!
     </div>

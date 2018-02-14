@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Class BookView renders page, which shows form and sent messages
+ *
+ */
 class BookView {
 
     /*

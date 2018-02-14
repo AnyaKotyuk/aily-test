@@ -28,7 +28,7 @@ class BookRepository {
             return false;
         }
 
-        if (!empty($data['file'])) {
+        if (!empty($data['file']['size'])) {
             $book->error_msg = $this->saveFile($data['file']);
             if (!empty($book->error_msg)) {
                 $book->error = true;
@@ -55,6 +55,8 @@ class BookRepository {
         if (!$res) {
             $book->error = true;
             $book->error_msg = "Error has happened! Try again.";
+        } else {
+            $book->error = false;
         }
     }
 

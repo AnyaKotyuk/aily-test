@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class Book make manipulations with book data
  */
@@ -81,6 +80,7 @@ class Book {
     /**
      * Get message list
      *
+     * @return array messages
      */
     public function getMessages()
     {
@@ -110,6 +110,11 @@ class Book {
         return $arr;
     }
 
+    /**
+     * Get general messages count
+     *
+     * @return bool|int
+     */
     public static function messagesCount()
     {
         $db = DB::getInstance();

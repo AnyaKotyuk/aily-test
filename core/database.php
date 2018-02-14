@@ -2,6 +2,7 @@
 /**
  * Class DB
  * Work with database easier
+ *
  */
 class DB{
     private static $instance = null;
